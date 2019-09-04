@@ -1,0 +1,368 @@
+import React from 'react';
+import { StyleSheet, css } from 'aphrodite'
+import { connect } from 'react-redux'
+import barConfig3 from './deploy3.config'
+import { childIds } from '../data/api'
+import { getDetail } from '../data/http'
+import areaConfig from '../data/area.config'
+import showbarConfig from './barconfig'
+
+// 引入 ECharts 主模块
+import ReactEcharts from 'echarts-for-react'
+import echarts from 'echarts/lib/echarts'
+import liquidfill from 'echarts/lib/echarts-liquidfill.js'
+
+const getRange = arr => {
+    let M = []
+    arr.map(item => {
+        M.push(item.total)
+    })
+    M.sort((a, b) => (a - b))
+    return (M[M.length - 1])
+}
+class ProductInspection extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            JRRWS: true,
+            JYWCQK: false,
+            JYHGQK: false
+        }
+    }
+    async getData() {
+        try {
+            let currentType = showbarConfig[this.props.barType]
+            let barDataTotal = []
+            let id = `${this.props.id != '' ? this.props.id : areaConfig(this.props.current, this.props.currentarea)}`
+            let str = ''
+            let url = childIds(this.props.current, id)
+            let data = '' //await getDetail(url)
+            let arrLength = 1
+            this.renderBar(str, getRange(barDataTotal))
+            this.renderBarHGL(str, getRange(barDataTotal))
+        } catch (error) {
+            console.log('error')
+            console.log(error)
+        }
+    }
+
+    timeAxis(){
+        return{
+            tooltip: {
+                trigger: 'item',
+                show: false,
+            },
+
+            xAxis: {
+                type: 'value',
+                show: false,
+            },
+            grid: {
+                x: 25,
+                y: 120,
+            },
+            yAxis: {
+                type: 'category',
+                show: false,
+                axisTick: {
+                    show: false
+                }
+            },
+            series: [{
+                type: 'bar',
+                name: '',
+                data: [15],
+                stack: 'income',
+                barWidth: 25,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside',
+                        //TODO 
+                        offset: [0, 0],
+                        formatter: '1分39秒',
+                        fontSize: '18'
+                    },
+
+                },
+                itemStyle: {
+                    normal: {
+                        color: '#FF7E00',
+                        barBorderRadius: [0],
+
+                    }
+                },
+            },
+            {
+                type: 'bar',
+                name: '',
+                data: [30],
+                stack: 'income',
+                barWidth: 25,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'inside',
+                        //TODO 
+                        offset: [0, 0],
+                        formatter: '4分11秒',
+                        fontSize: '18'
+                    }
+                },
+
+                itemStyle: {
+                    normal: {
+                        color: '#0387F6',
+                        barBorderRadius: [0],
+
+                    }
+
+                },
+            },
+            {
+                type: 'bar',
+                name: '',
+                data: [45],
+                stack: 'income',
+                barWidth: 25,
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'left',
+                        //TODO 
+                        offset: [120, 0],
+                        formatter: '1分09秒',
+                        color: '#FFFFFF',
+                        fontSize: '18'
+                    }
+                },
+
+                itemStyle: {
+                    normal: {
+                        color: '#23AD34',
+                        barBorderRadius: [0],
+
+                    }
+
+                }
+            }]
+        };
+    }
+
+
+    waterDrop(){
+        return{
+            series: [{
+                type: 'liquidFill',
+                data: [{
+                    value: 0.34,
+                    direction: 'left',
+                    itemStyle: {
+                        color: '#00FFFF'
+                    }
+                }],
+                center: ['50%', '50%'],
+                radius: '80%',
+                outline: {
+                    show: true,
+                    borderDistance: 0,
+                    itemStyle: {
+                        color: 'none',
+                        borderColor: '#3C959E',
+                        borderWidth: 2,
+                        shadowBlur: 20,
+                    }
+                },
+                backgroundStyle: {
+                    color: 'none'
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        textStyle: {
+                            color: '#fff',
+                            insideColor: '#fff',
+                            fontSize: 20,
+                            align: 'center',
+                            baseline: 'middle'
+                        },
+                        position: 'inside'
+                    }
+                }
+            }]
+        }
+    }
+    componentDidMount() {
+        //this.getData()
+    }
+    componentDidUpdate() {
+        //this.getData()
+    }
+    render() {
+        return (
+            <div className={css(styles.container)}>
+                <div className={css(styles.quickCheckContent)}>
+                 <ReactEcharts className={css(styles.timeAxis)} option={this.timeAxis()} />
+{/*                     <div className={css(styles.timeAxis)} id='timeAxis'></div> */}
+                    <div className={css(styles.theSum1)}>6分59秒</div>
+                    <div className={css(styles.theSum)}></div>
+                    <div className={css(styles.chuli1)}>快检受理</div>
+                    <div className={css(styles.chuli2)}>取样完成</div>
+                    <div className={css(styles.chuli3)}>检测开始</div>
+                    <div className={css(styles.chuli4)}>检测完成</div>
+                    <div className={css(styles.chuli5)}>鉴定完成</div>
+                    <div className={css(styles.theSum2)}></div>
+
+                </div>
+                <div className={css(styles.quickInspectionRotaryBroadcasting)}>
+                    <div className={css(styles.wheelPlanting)}></div>
+
+                </div>
+
+                <div className={css(styles.liquiDdiagram)}>
+                    <div className={css(styles.liquidPicture)}>
+                    <ReactEcharts className={css(styles.liquidDisplay)} option={this.waterDrop()} />
+{/*                         <div className={css(styles.liquidDisplay)} id='waterDrop'></div> */}
+                        <div className={css(styles.liquidValue)}>
+                            <div className={css(styles.liquidValueNumber)}>536</div>
+                            <div className={css(styles.liquidValueTitle)}>检测剩余数</div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
+export default connect(
+    state => {
+        return {
+            current: state.mediate,
+            currentarea: state.currentAreaName,
+            barType: state.barType,
+            barName: state.barName,
+            id: state.basicId
+        }
+    }
+)(ProductInspection)
+
+const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        height: '100%',
+        position: 'relative',
+        color: '#FFFFFF'
+    },
+    quickCheckContent: {
+        width: '100%',
+        height: '180px'
+    },
+    quickInspectionRotaryBroadcasting: {
+        position: 'absolute',
+        top: '180px',
+        left: '0px',
+        width: '57%',
+        height: '200px',
+    },
+    liquiDdiagram: {
+        position: 'absolute',
+        top: '180px',
+        left: '57%',
+        width: '43%',
+        height: '200px',
+
+    },
+    liquidPicture: {
+        height: '160px',
+        width: '350px',
+        border: '1px solid #3C959E',
+        borderRadius: '5px'
+    },
+    liquidDisplay: {
+        height: '160px',
+        width: '200px',
+        float: 'left',
+    },
+    liquidValue: {
+        height: '160px',
+        width: '150px',
+        float: 'left',
+    },
+    liquidValueNumber: {
+        fontSize: '30px',
+        textAlign: 'center',
+        color: '#FCD310',
+        fontWeight: 'bold',
+        paddingTop: '40px'
+    },
+    liquidValueTitle: {
+        fontSize: '20px',
+        textAlign: 'center',
+        color: '#3FD8F0',
+    },
+    timeAxis: {
+        height: '100px',
+        padding: '40px'
+
+    },
+    chuli1: {
+        position: 'absolute',
+        top: '135px',
+        left: '4%',
+    },
+    chuli2: {
+        position: 'absolute',
+        top: '135px',
+        left: '28%',
+    },
+    chuli3: {
+        position: 'absolute',
+        top: '135px',
+        left: '52%',
+    },
+    chuli4: {
+        position: 'absolute',
+        top: '135px',
+        left: '75%',
+    },
+    chuli5: {
+        position: 'absolute',
+        top: '135px',
+        left: '90%',
+    },
+    theSum: {
+        position: 'absolute',
+        top: '50px',
+        width: '100%',
+        height: '55px',
+        background: `url('./image/theSum.png') center center no-repeat`,
+        left: '10px'
+    },
+    theSum1: {
+        position: 'absolute',
+        top: '46px',
+        left: '47%',
+        fontSize: '20px',
+        fontWeight: 'bold'
+    },
+    theSum2: {
+        position: 'absolute',
+        top: '86px',
+        width: '100%',
+        height: '55px',
+        background: `url('./image/theSum2.png') center center no-repeat`,
+        left: '12px',
+
+    },
+    wheelPlanting: {
+        width: '480px',
+        height: '200px',
+        marginLeft: '45px',
+        background: `url('./image/wheelPlanting.png') center center no-repeat`,
+    }
+
+})
+
+
+

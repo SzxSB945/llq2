@@ -1,0 +1,568 @@
+import React from 'react';
+import { StyleSheet, css } from 'aphrodite'
+import { connect } from 'react-redux'
+import barConfig3 from './deploy3.config'
+import { childIds } from '../data/api'
+import { getDetail } from '../data/http'
+import areaConfig from '../data/area.config'
+import showbarConfig from './barconfig'
+
+// 引入 ECharts 主模块
+import ReactEcharts from 'echarts-for-react'
+import echarts from 'echarts/lib/echarts'
+import liquidfill from 'echarts/lib/echarts-liquidfill.js'
+import $ from "jquery"
+
+const getRange = arr => {
+    let M = []
+    arr.map(item => {
+        M.push(item.total)
+    })
+    M.sort((a, b) => (a - b))
+    return (M[M.length - 1])
+}
+class RiskEarlyWarning extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            JRRWS: true,
+            JYWCQK: false,
+            JYHGQK: false
+        }
+    }
+    async getData() {
+        try {
+            let currentType = showbarConfig[this.props.barType]
+            let barDataTotal = []
+            let id = `${this.props.id != '' ? this.props.id : areaConfig(this.props.current, this.props.currentarea)}`
+            let str = ''
+            let url = childIds(this.props.current, id)
+            let data = '' //await getDetail(url)
+            let arrLength = 1
+/*             this.renderBar(str, getRange(barDataTotal))
+            this.renderBarHGL(str, getRange(barDataTotal)) */
+
+            this.honeycomb();
+        } catch (error) {
+            console.log('error')
+            console.log(error)
+        }
+    }
+
+    honeycomb(){
+/*         debugger
+        var s=[1,2,3,4,5]
+        for (let index = 0; index < s.length; index++) {       
+            $("#wheelPlanting").append('<ul class="hexGrid_103n7tu" > <li class="hex_158i8t0"> <a class="hexIn_1tka9m6"></a></li></ul>')  
+        } */
+    }
+
+    riskEarlyWarning() {
+        return {
+            color: ['#00FFFF', '#06394C'],
+            legend: {
+                bottom: "15%",
+                right: "2%",
+                itemWidth: 8,
+                itemHeight: 8,
+                data: [],
+                formatter: function (name) { // 格式处理
+                    var datas = option.series;
+                    for (var i = 0; i < datas.length; i++) {
+                        if (name == datas[i].name) {
+                            return name + ' ' + (datas[i].data[0]) + '%';
+                        }
+                    }
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                show: false,
+
+            },
+            grid: {
+                x: 25,
+                y: 80,
+            },
+            xAxis: {
+                type: 'value',
+                max: 100, // 总长为100% 
+                show: false,
+            },
+            yAxis: {
+                type: 'category',
+                data: [' '],
+                show: false,
+            },
+            series: [ // 
+                {
+                    barWidth: 20,
+                    name: '0-10dBm',
+                    type: 'bar',
+                    stack: '总量',
+                    data: [45], // 计算得到此部分相应百分比 
+                    backgroundColor: 'RED',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            //TODO 
+                            offset: [-55, 0],
+                            formatter: '{c}%',
+                            fontSize: '18',
+                            color: '#06394C',
+                        },
+
+                    },
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: [10, 0, 0, 10],
+                        }
+                    },
+                },
+                {
+
+                    name: '11-15dBm',
+                    type: 'bar',
+                    stack: '总量',
+                    data: [55],  // 计算得到此部分相应百分比 
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: [0, 10, 10, 0],
+                            barBorderWidth: 1,
+                            barBorderColor: '#00FFFF',
+
+                        }
+                    },
+                }
+            ]
+        }
+    }
+    /**
+     * barDataTotal 柱状图的数据
+     * format  label所呈现的数据
+     * max     x轴的最大值
+     * length  调节数据在整个框中的位置
+     */
+
+    renderBar(format, max) {
+        //console.log("数据："+max);
+        max = 17;
+        let Bar = echarts.init(document.getElementById('riskEarlyWarning'));
+        var riskEarlyWarning = {
+            color: ['#00FFFF', '#06394C'],
+            legend: {
+                bottom: "15%",
+                right: "2%",
+                itemWidth: 8,
+                itemHeight: 8,
+                data: [],
+                formatter: function (name) { // 格式处理
+                    var datas = option.series;
+                    for (var i = 0; i < datas.length; i++) {
+                        if (name == datas[i].name) {
+                            return name + ' ' + (datas[i].data[0]) + '%';
+                        }
+                    }
+                }
+            },
+            tooltip: {
+                trigger: 'item',
+                show: false,
+
+            },
+            grid: {
+                x: 25,
+                y: 80,
+            },
+            xAxis: {
+                type: 'value',
+                max: 100, // 总长为100% 
+                show: false,
+            },
+            yAxis: {
+                type: 'category',
+                data: [' '],
+                show: false,
+            },
+            series: [ // 
+                {
+                    barWidth: 20,
+                    name: '0-10dBm',
+                    type: 'bar',
+                    stack: '总量',
+                    data: [45], // 计算得到此部分相应百分比 
+                    backgroundColor: 'RED',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'right',
+                            //TODO 
+                            offset: [-55, 0],
+                            formatter: '{c}%',
+                            fontSize: '18',
+                            color: '#06394C',
+                        },
+
+                    },
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: [10, 0, 0, 10],
+                        }
+                    },
+                },
+                {
+
+                    name: '11-15dBm',
+                    type: 'bar',
+                    stack: '总量',
+                    data: [55],  // 计算得到此部分相应百分比 
+                    itemStyle: {
+                        normal: {
+                            barBorderRadius: [0, 10, 10, 0],
+                            barBorderWidth: 1,
+                            barBorderColor: '#00FFFF',
+
+                        }
+                    },
+                }
+            ]
+        };
+        Bar.setOption(riskEarlyWarning)  //barConfig
+
+    }
+
+    renderBarHGL(format, max) {
+
+        max = 17;
+        let Bar = echarts.init(document.getElementById('waterDrop'));
+
+        var waterDrop = {
+            series: [{
+                type: 'liquidFill',
+                data: [{
+                    value: 0.34,
+                    direction: 'left',
+                    itemStyle: {
+                        color: '#00FFFF'
+                    }
+                }],
+                center: ['50%', '50%'],
+                radius: '80%',
+                outline: {
+                    show: true,
+                    borderDistance: 0,
+                    itemStyle: {
+                        color: 'none',
+                        borderColor: '#3C959E',
+                        borderWidth: 2,
+                        shadowBlur: 20,
+                    }
+                },
+                backgroundStyle: {
+                    color: 'none'
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        textStyle: {
+                            color: '#fff',
+                            insideColor: '#fff',
+                            fontSize: 20,
+                            align: 'center',
+                            baseline: 'middle'
+                        },
+                        position: 'inside'
+                    }
+                }
+            }]
+        };
+
+        Bar.setOption(waterDrop)  //barConfig
+
+    }
+    componentDidMount() {
+        this.getData()
+    }
+    componentDidUpdate() {
+        //this.getData()
+    }
+    render() {
+        return (
+            <div className={css(styles.container)}>
+                <div className={css(styles.quickCheckContent)}>
+                    <div className={css(styles.riskEarlyWarningUp)}>
+                        <div className={css(styles.WCL)}>完成率</div>
+                        <ReactEcharts className={css(styles.timeAxis)} option={this.riskEarlyWarning()} />
+                        {/* <div className={css(styles.timeAxis)} id='riskEarlyWarning'></div> */}
+                    </div>
+
+
+                </div>
+                <div className={css(styles.quickInspectionRotaryBroadcasting)}>
+                    <div className={css(styles.wheelPlanting)} >
+               {/*      <ul className={css(styles.hexGrid)} id='wheelPlanting'> */}
+                          <ul className={css(styles.hexGrid)} id='wheelPlanting'>
+                            <li className={css(styles.hex)}>
+                                <a className={css(styles.hexIn)}>
+
+                                </a>
+                            </li>
+                            <li className={css(styles.hex)}>
+                                <a className={css(styles.hexIn)}>
+
+                                </a>
+                            </li>
+                            <li className={css(styles.hex)}>
+                                <a className={css(styles.hexIn)}>
+
+                                </a>
+                            </li>
+                            <li className={css(styles.hex)}>
+                                <a className={css(styles.hexIn)}>
+
+                                </a>
+                            </li>
+                            <li className={css(styles.hex)}>
+                                <a className={css(styles.hexIn)}>
+
+                                </a>
+                            </li>
+                            <li className={css(styles.hex)}>
+                                <a className={css(styles.hexIn)}>
+
+                                </a>
+                            </li>
+                            <li className={css(styles.hex)}>
+                                <a className={css(styles.hexIn)}>
+
+                                </a>
+                            </li>
+                            <li className={css(styles.hex)}>
+                                <a className={css(styles.hexIn)}>
+
+                                </a>
+                            </li>
+                            <li className={css(styles.hex)}>
+                                <a className={css(styles.hexIn)}>
+
+                                </a>
+                            </li>
+                            <li className={css(styles.hex)}>
+                                <a className={css(styles.hexIn)}>
+
+                                </a>
+                            </li>
+                            <li className={css(styles.hex)}>
+                                <a className={css(styles.hexIn)}>
+
+                                </a>
+                            </li>
+                            <li className={css(styles.hex)}>
+                                <a className={css(styles.hexIn)}>
+
+                                </a>
+                            </li>
+                            <li className={css(styles.hex1)}>
+                                <a className={css(styles.hexIn1)}>
+
+                                </a>
+                            </li>
+                        </ul> 
+                    </div>
+                </div>
+
+                <div className={css(styles.liquiDdiagram)}>
+                    <div className={css(styles.liquidPicture)}>
+
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
+export default connect(
+    state => {
+        return {
+            current: state.mediate,
+            currentarea: state.currentAreaName,
+            barType: state.barType,
+            barName: state.barName,
+            id: state.basicId
+        }
+    }
+)(RiskEarlyWarning)
+
+const styles = StyleSheet.create({
+    hexIn: {
+        'display': 'block',
+        'width': '100%',
+        'height': '100%',
+        'text-align': 'center',
+        'color': '#fff',
+        'overflow': 'hidden',
+        'background-color': '#00FFFF',
+        '-webkit-transform': 'skewY(-30deg) rotate(60deg)',
+        '-ms-transform': 'skewY(-30deg) rotate(60deg)',
+        'transform': 'skewY(-30deg) rotate(60deg)',
+        'position': 'absolute',
+        'visibility': 'visible',
+        'outline': '1px solid transparent',
+        'text-decoration': 'none',
+        'line-height': '20px',
+        'font-size': '10px',
+
+    },
+    hex: {
+        'position': 'relative',
+        'list-style-type': 'none',
+        'float': 'left',
+        'overflow': 'hidden',
+        'visibility': 'hidden',
+        'outline': '1px solid transparent', /* fix for jagged edges in FF on hover transition */
+        '-webkit-transform': 'rotate(-60deg) skewY(30deg) translatez(-1px)',
+        '-ms-transform': 'rotate(-60deg) skewY(30deg) translatez(-1px)',
+        'transform': 'rotate(-60deg) skewY(30deg) translatez(-1px)',
+        'width': '8%',
+        'padding-bottom': '9%',
+        'margin-left': '0.1%',
+        'margin-right': '0.1%',
+        'margin-top': '0.1%',
+        'margin-bottom': '0.1%',
+
+    },
+    hexIn1: {
+        'display': 'block',
+        'width': '100%',
+        'height': '100%',
+        'text-align': 'center',
+        'color': '#fff',
+        'overflow': 'hidden',
+        'background-color': '#00FFFF',
+        '-webkit-transform': 'skewY(-30deg) rotate(60deg)',
+        '-ms-transform': 'skewY(-30deg) rotate(60deg)',
+        'transform': 'skewY(-30deg) rotate(60deg)',
+        'position': 'absolute',
+        'visibility': 'visible',
+        'outline': '1px solid transparent',
+        'text-decoration': 'none',
+        'line-height': '20px',
+        'font-size': '10px',
+
+    },
+    hex1: {
+        'position': 'relative',
+        'list-style-type': 'none',
+        'float': 'left',
+        'overflow': 'hidden',
+        'visibility': 'hidden',
+        'outline': '1px solid transparent', /* fix for jagged edges in FF on hover transition */
+        '-webkit-transform': 'rotate(-60deg) skewY(30deg) translatez(-1px)',
+        '-ms-transform': 'rotate(-60deg) skewY(30deg) translatez(-1px)',
+        'transform': 'rotate(-60deg) skewY(30deg) translatez(-1px)',
+        'width': '8%',
+        'padding-bottom': '9%',
+        'margin-left': '0.1%',
+        'margin-right': '0.1%',
+        'margin-top': '0.1%',
+        'margin-bottom': '0.1%',
+
+    },
+    hexGrid: {
+        overflow: 'hidden',
+        width: '499px',
+        margin: '0 auto',
+        padding: '0.866% 0',
+        'font-family': '"Raleway", sans-serif',
+        fontSize: '15px',
+
+    },
+    container: {
+        width: '100%',
+        height: '100%',
+        position: 'relative',
+        color: '#FFFFFF'
+    },
+    quickCheckContent: {
+        width: '100%',
+        height: '145px'
+    },
+    quickInspectionRotaryBroadcasting: {
+        position: 'absolute',
+        top: '150px',
+        left: '0px',
+        width: '57%',
+        height: '280px',
+    },
+    liquiDdiagram: {
+        position: 'absolute',
+        top: '150px',
+        left: '57%',
+        width: '43%',
+        height: '200px',
+
+    },
+    liquidPicture: {
+        height: '280px',
+        width: '350px',
+        border: '1px solid #3C959E',
+        marginLeft: '12px',
+
+    },
+    liquidDisplay: {
+        height: '160px',
+        width: '200px',
+        float: 'left',
+    },
+    liquidValue: {
+        height: '160px',
+        width: '150px',
+        float: 'left',
+    },
+    liquidValueNumber: {
+        fontSize: '30px',
+        textAlign: 'center',
+        color: '#FCD310',
+        fontWeight: 'bold',
+        paddingTop: '40px'
+    },
+    liquidValueTitle: {
+        fontSize: '20px',
+        textAlign: 'center',
+        color: '#3FD8F0',
+    },
+    timeAxis: {
+        height: '110px',
+    },
+    wheelPlanting: {
+        width: '490px ',
+        height: '280px',
+        marginLeft: '40px',
+        border: '1px solid #367A8A'
+    },
+    theSum1: {
+        position: 'absolute',
+        top: '40px',
+        left: '47%',
+        fontSize: '20px',
+        fontWeight: 'bold',
+    },
+    riskEarlyWarningUp: {
+        position: 'absolute',
+        top: '30px',
+        left: '40px',
+        width: '92%',
+        height: '110px',
+        border: '1px solid #367A8A'
+    },
+    WCL: {
+        position: 'absolute',
+        top: '10px',
+        left: '30px',
+    }
+
+})
+
+
+

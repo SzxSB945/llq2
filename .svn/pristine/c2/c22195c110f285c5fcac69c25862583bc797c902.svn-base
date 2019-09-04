@@ -1,0 +1,166 @@
+import React from 'react'
+import {StyleSheet,css} from 'aphrodite'
+import { connect } from 'react-redux'
+
+/**
+ * 引入组件
+ */
+import ShowBar from './showBar'
+import ShowBar2 from './showBar2'
+import ShowBar3 from './showBar3'
+import ShowBar4 from './showBar4'
+import EventBar from './eventBar'
+import SHmap from './shanghaiMap'
+import WisdomCase from './wisdomCase'
+import WisdomCase2 from './wisdomCase2'
+import HighRiskCase from  './highRiskCase'
+import BurstCase from './burstCase'
+import BusinessTarget from './businessTarget'
+
+class Echart extends React.Component{
+    render(){
+        return(
+            <div className={`${css(styles.contentDiv)}`} style={{width:'100%',height:'100%'}}>
+                <div className={css(styles.contentItemL)}>
+                    <div className={css(styles.leftItem1)}><WisdomCase2 /></div>
+                    <div className={css(styles.leftItemTop)}><ShowBar /></div>
+                    <div className={css(styles.leftItemBottom)}><ShowBar2 /></div>
+                    {/*<div className={css(styles.leftItemBottom)}><EventBar /></div>*/}
+                </div>
+                <div className={css(styles.contentItemC)}><SHmap /></div>
+                <div className={css(styles.contentItemR)}>
+                    <div className={css(styles.rightItem1)}><WisdomCase /></div>
+                    <div className={css(styles.rightItem2)}><ShowBar3/></div>
+                    <div className={css(styles.rightItem3)}><ShowBar4 /></div>
+                    {/*<div className={css(styles.rightItem2)}><HighRiskCase/></div>*/}
+                    {/*<div className={css(styles.rightItem3)}><BurstCase /></div>*/}
+                    {/*<div className={css(styles.rightItem4)}><BusinessTarget/></div>*/}
+                </div>
+            </div>
+        )
+    }
+}
+export default connect(
+    state =>{
+        return{
+            dataSource : state.dataSource
+        }
+    }
+)(Echart)
+
+const styles = StyleSheet.create({
+    contentDiv : {        
+        padding:'60px 20px 15px',
+        boxSizing:'border-box',
+        position:'relative',
+        display:'-webkit-flex',
+        flexDirection:'column',
+        flexWrap:'wrap',
+        justifyContent:'space-between'
+    },
+    contentItemL:{
+        width:'25%',
+        height:'100%',
+        padding:'10px 10px 10px 0',
+        boxSizing:'border-box',
+        float:'left'
+    },
+    leftItem1:{
+        width:'70%',
+        height:'180px',
+        padding:'8px 6px 20px',
+        boxSizing:'border-box',
+        color:'#fff',
+        background:`url('./image/sjl.png') center center no-repeat`,
+        // background:'none',
+        // border:'1px solid #888',
+        backgroundSize:'100%'
+    },
+    leftItemTop:{
+        width:'80%',
+        height:'200px',
+        //padding:'8px 6px 15px',
+        boxSizing:'border-box',
+        color:'#fff',
+        background:`url('./image/sjl.png') center center no-repeat`,  //jgzx
+        // background:'none',
+        backgroundSize:'100%',
+    },
+    leftItemBottom:{
+        width:'80%',
+        height:'631px',
+        //padding:'8px 6px 15px',
+        boxSizing:'border-box',
+        background:`url('./image/jgzx.png') center center no-repeat`,//sjl
+        // background:'none',
+        backgroundSize:'100%',
+        //marginTop:'34px'
+    },
+    contentItemC:{
+        width:'50%',
+        height:'100%',
+        position:'relative',
+        padding:'10px',
+        boxSizing:'border-box',
+        float:'left'
+    },
+    contentItemR:{
+        width:'25%',
+        height:'100%',
+        padding:'10px 0 10px 40px',
+        boxSizing:'border-box',
+        float:'right'
+    },
+    rightItem1:{
+        width:'85%',
+        height:'260px',
+        //padding:'6px 6px 13px',
+        boxSizing:'border-box',
+        color:'#fff',
+        background:`url('./image/sjl3.png') center center no-repeat`, //sjl zhtj
+        //background:'none',
+        // border:'1px solid #888',
+        backgroundSize:'100%',
+        float:'right',
+        marginTop:'5px'
+    },
+    rightItem2:{
+        width:'85%',
+        height:'260px',
+        //padding:'6px 6px 13px',
+        boxSizing:'border-box',
+        color:'#fff',
+        background:`url('./image/sjl3.png') center center no-repeat`,  //gfxaj
+        // background:'none',
+        backgroundSize:'100%',
+        marginTop:'19px',
+        float:'right',
+        marginTop:'40px'
+    },
+    rightItem3:{
+        width:'85%',
+        // height:'98px',
+        height:'260px',
+        // padding:'6px 6px 13px',
+        boxSizing:'border-box',
+        color:'#fff',
+        background:`url('./image/sjl3.png') center center no-repeat`,  //tfsj
+        // background:'none',
+        backgroundSize:'100%',
+        marginTop:'19px',
+        float:'right',
+        marginTop:'40px'
+    },
+    rightItem4:{
+        width:'100%',
+        height:'448px',
+        padding:'6px 6px 13px',
+        boxSizing:'border-box',
+        color:'#fff',
+        background:`url('./image/ywzb.png') center center no-repeat`,
+        background:'none',
+        backgroundSize:'100%',
+        marginTop:'19px'
+    }
+})
+

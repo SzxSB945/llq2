@@ -1,0 +1,373 @@
+import React from 'react';
+import { StyleSheet, css } from 'aphrodite'
+import { connect } from 'react-redux'
+import barConfig3 from './deploy3.config'
+import { childIds } from '../data/api'
+import { getDetail } from '../data/http'
+import areaConfig from '../data/area.config'
+import showbarConfig from './barconfig'
+
+// 引入 ECharts 主模块
+import ReactEcharts from 'echarts-for-react'
+import echarts from 'echarts/lib/echarts'
+
+import wordcloud from 'echarts/lib/echarts-wordcloud.js'
+
+const getRange = arr => {
+    let M = []
+    arr.map(item => {
+        M.push(item.total)
+    })
+    M.sort((a, b) => (a - b))
+    return (M[M.length - 1])
+}
+class ssdtData1 extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            KJZS: true,
+            LBS: false,
+        }
+    }
+    getData() {
+        try {
+            let currentType = showbarConfig[this.props.barType]
+            let barDataTotal = []
+            let id = `${this.props.id != '' ? this.props.id : areaConfig(this.props.current, this.props.currentarea)}`
+            let str = ''
+            let url = childIds(this.props.current, id)
+            let data = '' //await getDetail(url)
+            let arrLength = 1
+            this.renderBar(barDataTotal, str, getRange(barDataTotal), arrLength)
+        } catch (error) {
+            console.log('error')
+            console.log(error)
+        }
+    }
+
+
+    /* 快检总数 */
+    KJZS() {
+        var KJZS = document.getElementById('KJZS').innerHTML;
+        this.setState({
+            KJZS: true,
+            LBS: false,
+        })
+    }
+    /* 待抽样数 */
+    LBS() {
+        var LBS = document.getElementById('LBS').innerHTML;
+        this.setState({
+            KJZS: false,
+            LBS: true,
+        })
+    }
+
+
+    getOptions () {
+        return {
+            tooltip: {
+                show: true
+            },
+            series: [{
+                type: 'wordCloud',
+                size: ['80%', '80%'],
+                sizeRange: [15, 20],
+                rotationRange: [0, 0],
+                textPadding: 0,
+                autoSize: {
+                    enable: true,
+                    minSize: 12
+                },
+                textStyle: {
+                    normal: {
+                        color: function() {
+                            return 'rgb(' + [
+                                Math.round(Math.random() * 160),
+                                Math.round(Math.random() * 160),
+                                Math.round(Math.random() * 160)
+                            ].join(',') + ')';
+                        }
+                    },
+                    emphasis: {
+                        shadowBlur: 10,
+                        shadowColor: '#333'
+                    }
+                },
+                data: [
+                    {
+                        name: "油脂类产品",
+                        value: 1200
+                    },
+                    {
+                        name: "制粉工业产品",
+                        value: 855,
+                        normal:{
+                            
+                        }
+                    },
+                    {
+                        name: "烟草及烟草代用品的制品",
+                        value: 600
+                    },
+                    {
+                        name: "活动物",
+                        value: 455
+                    },
+                    {
+                        name: "糖及糖食",
+                        value: 980
+                    },
+                    {
+                        name: "杂项食品",
+                        value: 250
+                    },
+                    {
+                        name: "编制用植物材料",
+                        value: 1898
+                    },
+                    {
+                        name: "食品工业的残渣以肥料",
+                        value: 1484
+                    },
+                    {
+                        name: "肉及使用杂碎",
+                        value: 1112
+                    },
+                    {
+                        name: "食用蔬菜",
+                        value: 965
+                    },
+                    {
+                        name: "咖啡，茶及调味香料",
+                        value: 847
+                    },
+                    {
+                        name: "谷物",
+                        value: 582
+                    },
+                    {
+                        name: "活植物",
+                        value: 555
+                    },
+                    {
+                        name: "饮料",
+                        value: 550
+                    },
+                    {
+                        name: "可口可乐",
+                        value: 462
+                    },
+                    {
+                        name: "Farrah Abraham",
+                        value: 366
+                    }
+                ]
+            }]
+        };
+    }
+    componentDidMount() {
+        //this.getData()
+    }
+    componentDidUpdate() {
+        //this.getData()
+    }
+    render() {
+        return (
+            <div className={css(styles.container)}>
+                <div className={css(styles.switch)}>
+                    <div className={css(styles.switch1)} id="KJZS" onClick={this.KJZS.bind(this)} style={{
+                        background: `${this.state.KJZS ? 'url(./image/SSDTSwitch.png) no-repeat center' : 'url(./image/SSDTSwitchWX.png) no-repeat center'}`
+                    }}>快检总数</div>
+                    <div className={css(styles.switch2)} id="LBS" onClick={this.LBS.bind(this)} style={{
+                        background: `${this.state.LBS ? 'url(./image/SSDTSwitch.png) no-repeat center' : 'url(./image/SSDTSwitchWX.png) no-repeat center'}`
+                    }}>类别数</div>
+                </div>
+                <div style={{
+                    display: `${this.state.KJZS ? 'block' : 'none'}`
+                }}>
+                    <div className={css(styles.number)}>5,508</div>
+                    <div className={css(styles.showDiv3)}>月同比 8% <img src="./image/up.png" /> </div>
+                    <div className={css(styles.showDiv4)}>周同比 1% <img src="./image/down.png" /></div>
+                </div>
+                <div style={{
+                    display: `${this.state.LBS ? 'block' : 'none'}`
+                }}>
+
+{/*                     <div className={css(styles.LBS)}  id='ssdtData1'></div> */}
+                    <ReactEcharts className={css(styles.LBS)} option={this.getOptions()} />
+                </div>
+            </div>
+        )
+    }
+}
+
+export default connect(
+    state => {
+        return {
+            current: state.mediate,
+            currentarea: state.currentAreaName,
+            barType: state.barType,
+            barName: state.barName,
+            id: state.basicId
+        }
+    }
+)(ssdtData1)
+
+const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        height: '100%',
+        position: 'relative'
+    },
+    header: {
+        width: '245px',
+        height: '35px',
+        lineHeight: '35px',
+        fontSize: '17px',
+        color: '#fff',
+        textIndent: '1em',
+        position: 'absolute',
+        top: 0,
+        left: 0
+    },
+    tuli: {
+        width: '95%',
+        height: '45px',
+        lineHeight: '45px',
+        margin: '0 10px',
+        padding: '0 40px',
+        fontSize: '17px',
+        color: '#090909',
+        position: 'absolute',
+        top: '47px',
+        left: 0,
+        borderBottom: '1px solid #16358c',
+        boxSizing: 'border-box'
+    },
+    tuliLi: {
+        width: '50%',
+        height: '45px',
+        float: 'left',
+        textAlign: 'center'
+    },
+    tuliSpan: {
+        width: '18px',
+        height: '18px',
+        display: 'inline-block',
+        position: 'relative',
+        top: '3px',
+        left: '-8px'
+    },
+    tubiao: {
+        paddingTop: '43px',
+        paddingLeft: '18px',
+        boxSizing: 'border-box'
+    },
+    switch: {
+        width: '100%',
+        height: '40px',
+        padding: '20px 0px 0px 20px'
+    },
+    showDiv3: {
+        position: 'absolute',
+        bottom: '0',
+        width: '50%',
+        height: '45px',
+        textAlign: 'center',
+        color: '#FFFFFF'
+
+    },
+    showDiv4: {
+        position: 'absolute',
+        bottom: '0',
+        width: '50%',
+        height: '45px',
+        left: '50%',
+        textAlign: 'left',
+        color: '#FFFFFF'
+
+    },
+    title: {
+        textAlign: 'center',
+        color: '#00ffff',
+        paddingTop: '70px'
+
+    },
+    numdata: {
+        textAlign: 'center',
+        color: '#FCD310',
+        paddingTop: '10px',
+        fontSize: '24px'
+
+    },
+    number: {
+        position: 'absolute',
+        width: '100%',
+        top: '40%',
+        paddingLeft: '26px',
+        color: '#FCD310',
+        fontSize: '30px',
+        fontWeight: 'bold'
+
+
+    },
+    switch1: {
+        float: 'left',
+        width: '80px',
+        height: '40px',
+        lineHeight: '40px',
+        textAlign: 'center',
+        /*         background:`url('./image/SSDTSwitch.png') no-repeat center`, */
+        backgroundSize: '113% 100%',
+        color: '#fff',
+        fontSize: '12px',
+        fontWeight: 400,
+        cursor: 'pointer',
+    },
+    switch2: {
+        float: 'left',
+        width: '80px',
+        height: '40px',
+        lineHeight: '40px',
+        textAlign: 'center',
+        /*         background:`url('./image/SSDTSwitchWX.png') no-repeat center`, */
+        backgroundSize: '113% 100%',
+        color: '#fff',
+        fontSize: '12px',
+        fontWeight: 400,
+        cursor: 'pointer',
+    },
+    switch3: {
+        float: 'left',
+        width: '80px',
+        height: '40px',
+        lineHeight: '40px',
+        textAlign: 'center',
+        /*         background:`url('./image/SSDTSwitchWX.png') no-repeat center`, */
+        backgroundSize: '113% 100%',
+        color: '#fff',
+        fontSize: '12px',
+        fontWeight: 400,
+        cursor: 'pointer',
+    },
+    switch4: {
+        float: 'left',
+        width: '80px',
+        height: '40px',
+        lineHeight: '40px',
+        textAlign: 'center',
+        /*         background:`url('./image/SSDTSwitchWX.png') no-repeat center`, */
+        backgroundSize: '113% 100%',
+        color: '#fff',
+        fontSize: '12px',
+        fontWeight: 400,
+        cursor: 'pointer',
+    },
+    LBS: {
+        position: 'absolute',
+        height: '135px',
+        width: '440px',
+        top: '56px',
+    }
+})
