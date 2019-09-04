@@ -6,7 +6,7 @@ ADD . /app/
 #进入到app目录下面，类似cd
 WORKDIR /app
 #安装依赖
-RUN npm install --production --registry=http://registry.npm.taobao.org 
+#RUN npm install --production --registry=http://registry.npm.taobao.org 
 
 #RUN npm install pm2 -g
 
