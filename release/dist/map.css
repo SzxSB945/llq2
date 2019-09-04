@@ -1,0 +1,56 @@
+.Default {
+  background: -webkit-radial-gradient(#86C7FC, #4E96F7);
+  background: -o-radial-gradient(#86C7FC, #4E96F7);
+  background: radial-gradient(#86C7FC, #4E96F7);
+  letter-spacing: 0;
+  color: #fff;
+  border: 0.5px solid #5096FF;
+  border-radius: 2px;
+  font-size: 14px;
+  font-family: 'PingFangSC-Regular';
+}
+.Default:hover {
+  background-color: #5096FF;
+  color: white;
+}
+.LightLine {
+  background-image: -webkit-gradient(linear, left bottom, left top, color-stop(gradient, invalid));
+  background-image: -webkit-linear-gradient(bottom, invalid gradient);
+  background-image: -o-linear-gradient(bottom, invalid gradient);
+  background-image: linear-gradient(0deg, invalid gradient);
+  letter-spacing: 0;
+  color: #5096FF;
+  border: 0.5px solid #4E96F7;
+  border-radius: 2px;
+  font-size: 14px;
+  font-family: 'PingFangSC-Regular';
+}
+.DarkLine {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#F8F8F8));
+  background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #F8F8F8 100%);
+  background-image: -o-linear-gradient(top, #FFFFFF 0%, #F8F8F8 100%);
+  background-image: linear-gradient(-180deg, #FFFFFF 0%, #F8F8F8 100%);
+  letter-spacing: 0;
+  color: #666666;
+  border: 0.5px solid #CCCCCC;
+  border-radius: 2px;
+  font-size: 14px;
+  font-family: 'PingFangSC-Regular';
+}
+.DarkLine:hover {
+  border: 0.5px solid #CCCCCC;
+  color: #666666;
+}
+.Stop {
+  background: #F7F7F7;
+  letter-spacing: 0;
+  color: #CCCCCC;
+  border: 0.5px solid #E6E6E6;
+  border-radius: 2px;
+  font-size: 14px;
+  font-family: 'PingFangSC-Regular';
+}
+.Stop:hover {
+  border: 0.5px solid #E6E6E6;
+  color: #CCCCCC;
+}

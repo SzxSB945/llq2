@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script type="text/javascript"> 
+    Date.prototype.Format = function (fmt) {
+        var o = {
+            "M+": this.getMonth() + 1, //月份 
+            "d+": this.getDate(), //日 
+            "H+": this.getHours(), //小时 
+            "m+": this.getMinutes(), //分 
+            "s+": this.getSeconds(), //秒 
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+            "S": this.getMilliseconds() //毫秒 
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    // window.setInterval(showalert, 10000); 
+
+    // var i = 0;
+
+
+ 
+    // var datason = [{Lsg:'平谷海关',Qy:'北京一零六食品贸易有限公司公司',Dh:'5200505320',Bhg:'呋喃妥因超标 0.8',Fw:'正常值0'},
+    // {Lsg:'平谷海关',Qy:'北京长图食品贸易有限公司',Dh:'6328505902',Bhg:'恩诺沙星超标 139',Fw:'正常值100'},
+    // {Lsg:'平谷海关',Qy:'北京常胜食品加工贸易有限',Dh:'5208305912',Bhg:'土霉素超标 128',Fw:'正常值100'}]
+    // function showalert(){ 
+    //     //alert('aaa'); 
+    //     i++;
+    //     var j = i%3;
+    //     var myDate = new Date();
+    //     var spanDate=document.getElementById("spanDate");  // 找到元素
+    //     spanDate.innerHTML=myDate.Format("yyyy-MM-dd HH:mm:ss");    // 改变内容
+    //     var spanLsg = document.getElementById("spanLsg"); 
+    //     spanLsg.innerHTML=datason[j].Lsg;
+    //     var spanQy = document.getElementById("spanQy");
+    //     spanQy.innerHTML=datason[j].Qy;
+    //     var spanDh = document.getElementById("spanDh");
+    //     spanDh.innerHTML=datason[j].Dh;
+    //     var spanBhg = document.getElementById("spanBhg");
+    //     spanBhg.innerHTML=datason[j].Bhg;
+    //     var spanFw = document.getElementById("spanFw");
+    //     spanFw.innerHTML=datason[j].Fw;
+    // } 
+    // function hidey(){
+    //     document.getElementById("yaocan").style.display="none";
+    //     document.getElementById("longcan").style.display="none";
+    //     document.getElementById("clisss2").style.display="none";
+    // }
+    </script>
+<style>
+    /* *{
+        font-family:  ''
+    } */
+    html,body{
+        width:100%;
+        height:100%;
+        background:url('./image/mapbackground.png') no-repeat;
+        background-size: 100% 100%;
+        overflow: hidden;
+        margin : 0;
+        padding: 0;
+    }
+    #app{
+        width:100%;
+        height:100%;
+    }
+    ::-webkit-scrollbar{  
+        width: 5px;  
+        height:4px;     
+        background-color:rgba(0,0,0,0);
+    }  
+    ::-webkit-scrollbar-track{  
+        border-radius: 10px; 
+        background-color:#132f4f;    
+        
+    }
+    ::-webkit-scrollbar-thumb{  
+        border-radius: 10px;  
+        background-color:rgba(107, 223, 255,0.3);
+    }
+</style>
+<body>
+    <div id="app"></div>
+    <script src="./dist/map.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+    "type": "FeatureCollection",
+    "features": [{
+        "id": "310110",
+        "geometry": {
+            "type": "Polygon",
+            "coordinates": ["@@pSNGDCDGDM@cBGL[BKAGEGMOcY[GWA@JD@U\\ALIHID@NLLAJABUEGX@PVA@ZDDADGFX`ZKDHFA"],
+            "encodeOffsets": [
+                [124443, 32100]
+            ]
+        },
+        "properties": {
+            "cp": [121.522797, 31.270755],
+            "name": "杨浦区",
+            "childNum": 1
+        }
+    }],
+    "UTF8Encoding": true
+}
